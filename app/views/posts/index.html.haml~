@@ -3,7 +3,18 @@
 -if flash[:notice]
   %p= flash[:notice]
 
-%p= @posts.class
+%nav
+  %ul(id="nav")
+    %li(id="previous")
+      %a{:href => @nav[:link_to_previous]}
+        =@nav[:previous]
+    %li(id="current")
+      =@nav[:title]
+    %li(id="next")
+      %a{:href => @nav[:link_to_next]}
+        =@nav[:next]
+
+
 
 %table
   %tr
@@ -12,12 +23,12 @@
     %th
     %th
 
-//  - @posts.each do |post|
-//    %tr
-//      %td= post.release
-//      %td= link_to 'Show', post
-//      %td= link_to 'Edit', edit_post_path(post)
-//      %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+  - @posts.each do |post|
+    %tr
+      %td= post.release
+      %td= link_to 'Show', post
+      %td= link_to 'Edit', edit_post_path(post)
+      %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
 
 %br
 

@@ -4,7 +4,10 @@ class PostsController < ApplicationController
   # Home page!
   def index
     @posts = Post.recent
+    
     #@nav[:next] = Post.posts_to_display
+    #@nav = [:link_to_next, :next, :previous, :link_to_previous, :title]
+    @nav = get_navigation_for 0      
     
     respond_to do |format|
       format.html # index.html.erb
@@ -13,11 +16,27 @@ class PostsController < ApplicationController
   end
 
   def archive
-    offset = params[:page].to_i * Post.posts_to_display
+    page_num = params[:page].to_i
+    @nav = get_navigation_for page_num 
+    offset = page_num * Post.posts_to_display
     @posts = Post.recent( offset )
     @posts.respond_to?(:integer?) ? redirect_to( :action => :archive, :page => @posts ) : render( "index" )
+
   end
 
+  private
+  
+  def get_navigation_for page
+    @nav = {}
+    @nav[:next] = "Next >"
+    @nav[:previous] = "< Previous"
+    @nav[:link_to_next] = ROOT_URL + "posts/archive/#{page+1}"
+    @nav[:link_to_previous] = ROOT_URL + "posts/archive/#{page-1}"
+    @nav[:title] = "Recent Videos"
+    @nav
+  end
+
+  public
   # GET /posts/1
   # GET /posts/1.json
   def show
