@@ -1,7 +1,12 @@
 Vidusic::Application.routes.draw do
-  resources :videos
 
-  resources :posts
+  #Posts routes:
+  resources :posts do
+    resources :videos
+  end
+  match 'posts/archive/:page' => 'post#archive'
+  
+  root :to => 'posts#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

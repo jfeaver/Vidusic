@@ -1,5 +1,8 @@
 %h1 Listing posts
 
+-if flash[:notice]
+  %p= flash[:notice]
+
 %table
   %tr
     %th Release

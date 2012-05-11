@@ -3,12 +3,19 @@ class PostsController < ApplicationController
   # GET /posts.json
   # Home page!
   def index
-    @posts = Post.recent(24)
-
+    @posts = Post.recent
+    #@nav[:next] = Post.posts_to_display
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @posts }
     end
+  end
+
+  def archive
+    offset = params[:page].to_i * Post.posts_to_display
+    @posts = Post.recent( offset )
+    @posts.respond_to?(:integer?) ? redirect_to( :action => :archive, :page => @posts ) : render( "index" )
   end
 
   # GET /posts/1
