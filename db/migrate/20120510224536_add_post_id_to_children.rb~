@@ -1,0 +1,4 @@
+class AddPostIdToChildren < ActiveRecord::Migration
+  def change
+  end
+end
