@@ -6,9 +6,11 @@ be used as a Video blog for any type of video.
 
 == Looking Around
 
-* Two models: Videos and Backgrounds.  This is incomplete in my mind.  I'm
-  currently working on a new edition with a container class: Post.  This,
-  I hope, will ease development and be more flexible for future iterations.
+* Three models: Posts, Videos, and Backgrounds.  Each Post has one background
+  and up to three videos.  An admin creates a new post by entering in some
+  urls and other info and the post will automatically display at the next
+  best release date (today or the first day in the future that doesn't have
+  one background or three videos already).
 
 * Testing via RSpec and Factories built by FactoryGirl.  Views are done with
   haml of course.
