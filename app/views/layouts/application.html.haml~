@@ -8,5 +8,15 @@
   %body
     -if flash[:notice]
       %p= flash[:notice]
-
+    -if @nav
+      %nav
+        %ul(id="nav")
+          %li(id="previous")
+            %a{:href => @nav[:link_to_previous]}
+              =@nav[:previous]
+          %li(id="current")
+            =@nav[:title]
+          %li(id="next")
+            %a{:href => @nav[:link_to_next]}
+              =@nav[:next]
     =yield

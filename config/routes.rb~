@@ -4,7 +4,7 @@ Vidusic::Application.routes.draw do
   resources :posts do
     resources :videos
   end
-  match 'posts/archive/:page' => 'post#archive'
+  match 'posts/archive/:page' => 'posts#archive'
   
   root :to => 'posts#index'
 

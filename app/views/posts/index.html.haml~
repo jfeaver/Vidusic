@@ -1,21 +1,5 @@
 %h1 Listing posts
 
--if flash[:notice]
-  %p= flash[:notice]
-
-%nav
-  %ul(id="nav")
-    %li(id="previous")
-      %a{:href => @nav[:link_to_previous]}
-        =@nav[:previous]
-    %li(id="current")
-      =@nav[:title]
-    %li(id="next")
-      %a{:href => @nav[:link_to_next]}
-        =@nav[:next]
-
-
-
 %table
   %tr
     %th Release
