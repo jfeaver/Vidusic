@@ -53,6 +53,8 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
+    @video = Video.new
+    @background = Background.new
 
     respond_to do |format|
       format.html # new.html.erb

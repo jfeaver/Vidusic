@@ -2,6 +2,8 @@ class Post < ActiveRecord::Base
   has_many :videos
   has_one :background
 
+  #accepts_nested_attributes_for :videos, :background, :allow_destroy => true
+
   validates :release, :presence => true
 
   def self.recent offset = 0

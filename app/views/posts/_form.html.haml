@@ -1,13 +1,40 @@
-= form_for @post do |f|
-  -if @post.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
-      %ul
-        - @post.errors.full_messages.each do |msg|
-          %li= msg
 
+= form_tag( :action => 'create', :id => @post, :method => 'post' ) do
+  -3.times do |v|
+    .field
+      - labels = {:title => "video#{v}[title]", :slug => "video#{v}[slug]"}
+      =label_tag( labels[:title], 'Video Title:' )
+      =text_field_tag( labels[:title] ) 
+      =label_tag( labels[:slug], 'Slug:' )
+      =text_field_tag( labels[:slug] )
+  %h3 Background Image
   .field
-    = f.label :release
-    = f.date_select :release
-  .actions
-    = f.submit 'Save'
+    =label_tag( 'background[author]', 'Author:' )
+    =text_field_tag( 'background[author]' )
+  .field
+    =label_tag( 'background[author_link]', 'Author Link:')
+    =text_field_tag( 'background[author_link]' )
+  .field
+    =label_tag( 'background[naked]', 'Naked Link:' )
+    =text_field_tag( 'background[naked]' )
+  .field
+    =label_tag( 'background[flickr]', 'Flickr Photo Link:' )
+    =text_field_tag( 'background[flickr]' )
+  .field
+    CC Type:
+    = radio_button_tag 'background[cc_type]', 1
+    = label_tag :by, 'BY'
+    = radio_button_tag 'background[cc_type]', 2
+    = label_tag :by_sa, 'BY-SA'
+    = radio_button_tag 'background[cc_type]', 3
+    = label_tag :by_nd, 'BY-ND'
+    = radio_button_tag 'background[cc_type]', 4
+    = label_tag :by_nc, 'BY-NC'
+    = radio_button_tag 'background[cc_type]', 5
+    = label_tag :by_nc_sa, 'BY-NC-SA'
+    = radio_button_tag 'background[cc_type]', 6
+    = label_tag :by_nc_nd, 'BY-NC-ND'
+  .field
+    =label_tag( 'password', 'Administrator Code:' )
+    =password_field_tag( 'password' )
+  =submit_tag( 'Submit' )
