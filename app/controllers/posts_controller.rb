@@ -37,6 +37,7 @@ class PostsController < ApplicationController
   end
 
   public
+
   # GET /posts/1
   # GET /posts/1.json
   def show
@@ -68,14 +69,36 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(params[:post])
-
+    video = nil
+    background = nil
+    errors = []
+    if params[:video]
+      @video = Video.new(params[:video])
+      if @video.save
+        video = true
+      else
+        errors << @video.errors
+        video = false
+      end
+    end
+    if params[:background]
+      @background = Background.new(params[:background])
+      if @background.save
+        background = true
+      else
+        errors << @background.errors
+        background = false
+      end
+    end
+    
     respond_to do |format|
-      if @post.save
+      if @post.save && ( background || background.nil? ) && ( video || video.nil? )
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
+        errors << @post.errors
         format.html { render action: "new" }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
+        format.json { render json: errors, status: :unprocessable_entity }
       end
     end
   end
