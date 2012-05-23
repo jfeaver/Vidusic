@@ -1,8 +1,22 @@
+-if @post.errors.any? || @video.errors.any? || @background.errors.any?
+  .errors
+    -if @post.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@post.errors.count, "error")} prohibited this video from being saved:"
+        %ul
+          - @post.errors.full_messages.each do |msg|
+            %li= msg
+    -if @background.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@background.errors.count, "error")} prohibited this video from being saved:"
+        %ul
+          - @background.errors.full_messages.each do |msg|
+            %li= msg
 
 = form_tag( :action => 'create', :id => @post, :method => 'post' ) do
   -3.times do |v|
     .field
-      - labels = {:title => "video#{v}[title]", :slug => "video#{v}[slug]"}
+      -labels = {:title => "video[#{v}][title]", :slug => "video[#{v}][slug]"}
       =label_tag( labels[:title], 'Video Title:' )
       =text_field_tag( labels[:title] ) 
       =label_tag( labels[:slug], 'Slug:' )

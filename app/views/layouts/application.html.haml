@@ -7,7 +7,14 @@
     =csrf_meta_tags
   %body
     -if flash[:notice]
-      %p= flash[:notice]
+      #notice
+        %p= flash[:notice]
+    -if flash[:alert]
+      #alert
+        %p= flash[:alert]
+    -if flash[:debug]
+      #debug
+        %p= flash[:debug]
     -if @nav
       %nav
         %ul(id="nav")

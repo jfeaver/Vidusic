@@ -42,6 +42,8 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @post = Post.find(params[:id])
+    @videos = Video.where(["post_id = ?", params[:id]]).all
+    @background = Background.where(["post_id = ?", params[:id]])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -70,20 +72,32 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
+
+    # Create a new post but don't save yet
+    params[:post] = Hash[ :release, Post.next_release ]
     @post = Post.new(params[:post])
+
+    # Setup
+    flash[:alert]=params.inspect
     video = nil
     background = nil
     errors = []
-    if params[:video]
-      @video = Video.new(params[:video])
-      if @video.save
-        video = true
-      else
-        errors << @video.errors
-        video = false
+    
+    # Create Videos
+    3.times do |video_counter|
+      video_counter = video_counter.to_s
+      unless params[:video][video_counter].empty?
+        @video = Video.new(params[:video][video_counter])
+        video = true if @video.save && video.nil?
+        unless @video.errors.empty?
+          errors << @video.errors
+          video = false
+        end
       end
     end
-    if params[:background]
+
+    # Create Background
+    unless params[:background].empty?
       @background = Background.new(params[:background])
       if @background.save
         background = true
@@ -98,6 +112,8 @@ class PostsController < ApplicationController
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
+        flash[:debug] = 'background: ' + background.to_s + '<br/>video: ' + video.to_s
+        flash[:notice] = errors.inspect
         errors << @post.errors
         format.html { render action: "new" }
         format.json { render json: errors, status: :unprocessable_entity }
@@ -125,7 +141,11 @@ class PostsController < ApplicationController
   # DELETE /posts/1.json
   def destroy
     @post = Post.find(params[:id])
+    @videos = Video.where(["post_id = ?", params[:id]]).all
+    @background = Background.where(["post_id = ?", params[:id]])
     @post.destroy
+    @videos.destroy
+    @background.destroy
 
     respond_to do |format|
       format.html { redirect_to posts_url }

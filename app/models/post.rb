@@ -17,6 +17,11 @@ class Post < ActiveRecord::Base
   end
 
   def self.posts_to_display
-    2
+    12 
+  end
+
+  def self.next_release
+    recent_release_date = Post.last.release
+    return ( recent_release_date < Date.today ? Date.today : recent_release_date + 1 )
   end
 end
