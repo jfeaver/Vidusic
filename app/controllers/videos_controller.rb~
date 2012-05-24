@@ -13,7 +13,7 @@ class VideosController < ApplicationController
   # GET /videos/1
   # GET /videos/1.json
   def show
-    post_videos = Video.find(params[:id]) #where(["post_id = ?", params[:post_id]]).all
+    post_videos = Video.first #where(["post_id = ?", params[:post_id]]).all
     flash[:notice] = post_videos.inspect
     @video = Video.first #post_videos[ params[:id].to_i ]
     respond_to do |format|

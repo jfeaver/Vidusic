@@ -87,6 +87,8 @@ class PostsController < ApplicationController
     3.times do |video_counter|
       video_counter = video_counter.to_s
       unless params[:video][video_counter].empty?
+        post_id = (Post.last ? Post.last.id + 1 : 1 )
+        params[:video][video_counter][:post_id] = post_id
         @video = Video.new(params[:video][video_counter])
         video = true if @video.save && video.nil?
         unless @video.errors.empty?
@@ -143,8 +145,9 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @videos = Video.where(["post_id = ?", params[:id]]).all
     @background = Background.where(["post_id = ?", params[:id]])
+    
     @post.destroy
-    @videos.destroy
+    @videos.each { |video| video.destroy }
     @background.destroy
 
     respond_to do |format|

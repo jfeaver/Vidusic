@@ -1,19 +1,19 @@
 %h1 Listing posts
-
-%table
-  %tr
-    %th Release
-    %th
-    %th
-    %th
-
-  - @posts.each do |post|
+- if @posts
+  %table
     %tr
-      %td= post.release
-      %td= link_to 'Show', post
-      %td= link_to 'Edit', edit_post_path(post)
-      %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
-
+      %th Release
+      %th
+      %th
+      %th
+    - @posts.each do |post|
+      %tr
+        %td= post.release
+        %td= link_to 'Show', post
+        %td= link_to 'Edit', edit_post_path(post)
+        %td= link_to 'Destroy', post, :confirm => 'Are you sure?', :method => :delete
+- else
+  %p There are no posts!
 %br
 
 = link_to 'New Post', new_post_path

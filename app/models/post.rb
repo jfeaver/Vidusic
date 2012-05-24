@@ -10,10 +10,15 @@ class Post < ActiveRecord::Base
     n = Post.posts_to_display # n => number of posts to display per page
     posts = Post.order("release DESC").offset(offset).limit(n).all
     if posts.length == 0
-      last_post_id = Post.order("release ASC").limit(n).last.id
-      return last_post_id.modulo n
+      if offset == 0
+        return false
+      else
+        last_post_id = Post.order("release ASC").limit(n).last.id
+        return last_post_id.modulo n
+      end
+    else
+      return posts
     end
-    posts
   end
 
   def self.posts_to_display
@@ -21,7 +26,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.next_release
-    recent_release_date = Post.last.release
+    recent_release_date = ( Post.last ? Post.last.release : Date.today - 1 )
     return ( recent_release_date < Date.today ? Date.today : recent_release_date + 1 )
   end
 end
