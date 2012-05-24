@@ -7,7 +7,7 @@ class PostsController < ApplicationController
     
     #@nav[:next] = Post.posts_to_display
     #@nav = [:link_to_next, :next, :previous, :link_to_previous, :title]
-    @nav = get_navigation_for 0      
+    @nav = get_navigation :for => 'posts', :current => ( Post.last ? Post.last.id : 0 ), :archive => 0
     
     respond_to do |format|
       format.html # index.html.erb
@@ -17,23 +17,39 @@ class PostsController < ApplicationController
 
   def archive
     page_num = params[:page].to_i
-    @nav = get_navigation_for page_num 
-    offset = page_num * Post.posts_to_display
+    offset = page_num * Post::POSTS_PER_PAGE
     @posts = Post.recent( offset )
+    @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
     @posts.respond_to?(:integer?) ? redirect_to( :action => :archive, :page => @posts ) : render( "index" )
 
   end
 
   private
   
-  def get_navigation_for page
-    @nav = {}
-    @nav[:next] = "Next >"
-    @nav[:previous] = "< Previous"
-    @nav[:link_to_next] = ROOT_URL + "posts/archive/#{page+1}"
-    @nav[:link_to_previous] = ROOT_URL + "posts/archive/#{page-1}"
-    @nav[:title] = "Recent Videos"
-    @nav
+  def get_navigation args
+    if args[:for] && args[:current]
+      @nav = {}
+      @nav[:next] = "Next >"
+      @nav[:previous] = "< Previous"
+
+      #Some logic parameters:
+      p = ( Post.last ? Post.last.id : 0 ) #Total Posts
+      ppp = Post::POSTS_PER_PAGE  #Posts Per Page
+      cp = args[:current] #Current page, 1st Post id
+      case args[:for]
+      when 'posts'
+        @nav[:link_to_next] = ( cp - ppp > 0 ? ROOT_URL + "posts/archive/#{args[:archive]+1}" : false )
+        @nav[:link_to_previous] = ( (p == 0 || cp == p) ? false : ROOT_URL + "posts/archive/#{args[:archive]-1}" )
+        @nav[:title] = "Recent Videos"
+      when 'videos'
+
+      else
+        @nav = false
+      end
+        return @nav
+    else
+      raise "Required arguments for PostController#get_navigation not received.  Required arguments: :for and :current."
+    end
   end
 
   public
@@ -100,6 +116,8 @@ class PostsController < ApplicationController
 
     # Create Background
     unless params[:background].empty?
+      post_id = (Post.last ? Post.last.id + 1 : 1 ) unless post_id
+      params[:background][:post_id] = post_id
       @background = Background.new(params[:background])
       if @background.save
         background = true

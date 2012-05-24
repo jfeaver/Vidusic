@@ -10,14 +10,18 @@ class VideosController < ApplicationController
     end
   end
 
-  # GET /videos/1
-  # GET /videos/1.json
+  # GET posts/:post_id/videos/:id
+  # GET posts/:post_id/videos/:id.json
   def show
-    post_videos = Video.where(["post_id = ?", params[:post_id]]).limit(3)
-    flash[:notice] = params.inspect
-    #don't allow negative array locations for video ids in url:
-    not_found unless params[:id].to_i.between?( 1, 3 )
-    @video = post_videos[ params[:id].to_i - 1 ]
+    if Post.exists?(params[:post_id])
+      post_videos = Video.where(["post_id = ?", params[:post_id]]).limit(3)
+      #don't allow negative array locations for video ids in url:
+      not_found unless params[:id].to_i.between?( 1, 3 )
+      @video = post_videos[ params[:id].to_i - 1 ]
+      @nav = get_navigation :for => 'videos', :current => @video
+    else
+      not_found
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @video }
