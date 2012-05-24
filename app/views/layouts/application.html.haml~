@@ -1,26 +1,68 @@
 !!!5
 %html
   %head
-    %title Vidusic
+    %title Vidusic: Video Music Fusion
     =stylesheet_link_tag    "application", :media => "all"
     =javascript_include_tag "application" 
     =csrf_meta_tags
+    %style 
+      html{ background: url(#{@background[:naked_photo_link]}) no-repeat center center fixed; }
   %body
+    %a{:href => home_url}
+      %h1(class="hidden") Vidusic
+    %a(id="logo"){:href => ROOT_URL}
+      =image_tag 'logo.png'
     -if flash[:notice]
-      #notice
+      #notice(class='flash')
         %p= flash[:notice]
     -if flash[:alert]
-      #alert
+      #alert(class='flash')
         %p= flash[:alert]
-    -if @nav
-      %nav
-        %ul(id="nav")
-          %li(id="previous")
-            %a{:href => @nav[:link_to_previous]}
-              =@nav[:previous]
-          %li(id="current")
-            =@nav[:title]
-          %li(id="next")
-            %a{:href => @nav[:link_to_next]}
-              =@nav[:next]
-    =yield
+    -if flash[:debug]
+      #debug(class='flash')
+        %p= flash[:debug]
+    %div(id="wrapper")
+      %div(class="border_row")
+        %div(class="border u l")
+          =image_tag 'borders/bor_ul.png'
+        %div(class="border u c")
+          =image_tag 'borders/bor_top.png'
+        %div(class="border u r")
+          =image_tag 'borders/bor_ur.png'
+      %div(class="border_row")
+        %div(class="border m l")
+          =image_tag 'borders/bor_left.png'
+        %div(id="content")
+          -if @nav
+            %nav
+              %ul(id="nav")
+                %li(id="previous")
+                  %a{:href => @nav[:link_to_previous]}
+                    =@nav[:previous]
+                %li(id="current")
+                  =@nav[:title]
+                %li(id="next")
+                  %a{:href => @nav[:link_to_next]}
+                    =@nav[:next]
+          =yield
+        %div(class="border m r")
+          =image_tag 'borders/bor_right.png'
+      %div(class="border_row")
+        %div(class="border b l")
+          =image_tag 'borders/bor_bl.png'
+        %div(class="border b c")
+          =image_tag 'borders/bor_bottom.png'
+        %div(class="border b r")
+          =image_tag 'borders/bor_br.png'
+    %div(id="attribution")
+      %div(id="attribution_content")
+        %p
+          %i 
+            %a{:href => @background[:flickr_photo_link]} backround image:
+        %p(class="attr_name")
+          %a{ :href => @background[:author_link] }
+            %b
+              =@background[:author]
+        %a( rel="license"){ :href => @background[:cc_link] }
+          %img( alt="Creative Commons License" style="border-width:0"){:src => @background[:cc_logo]}
+

@@ -8,6 +8,7 @@ class PostsController < ApplicationController
     #@nav[:next] = Post.posts_to_display
     #@nav = [:link_to_next, :next, :previous, :link_to_previous, :title]
     @nav = get_navigation :for => 'posts', :current => ( Post.last ? Post.last.id : 0 ), :archive => 0
+    @background = Background::DEFAULT
     
     respond_to do |format|
       format.html # index.html.erb
@@ -19,47 +20,21 @@ class PostsController < ApplicationController
     page_num = params[:page].to_i
     offset = page_num * Post::POSTS_PER_PAGE
     @posts = Post.recent( offset )
-    @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
-    @posts.respond_to?(:integer?) ? redirect_to( :action => :archive, :page => @posts ) : render( "index" )
-
-  end
-
-  private
-  
-  def get_navigation args
-    if args[:for] && args[:current]
-      @nav = {}
-      @nav[:next] = "Next >"
-      @nav[:previous] = "< Previous"
-
-      #Some logic parameters:
-      p = ( Post.last ? Post.last.id : 0 ) #Total Posts
-      ppp = Post::POSTS_PER_PAGE  #Posts Per Page
-      cp = args[:current] #Current page, 1st Post id
-      case args[:for]
-      when 'posts'
-        @nav[:link_to_next] = ( cp - ppp > 0 ? ROOT_URL + "posts/archive/#{args[:archive]+1}" : false )
-        @nav[:link_to_previous] = ( (p == 0 || cp == p) ? false : ROOT_URL + "posts/archive/#{args[:archive]-1}" )
-        @nav[:title] = "Recent Videos"
-      when 'videos'
-
-      else
-        @nav = false
-      end
-        return @nav
+    if @posts.respond_to? :integer?
+      # The end of the archive pages has been surpassed
+      redirect_to( :action => :archive, :page => @posts )
     else
-      raise "Required arguments for PostController#get_navigation not received.  Required arguments: :for and :current."
+      @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
+      render( "index" )
     end
   end
-
-  public
 
   # GET /posts/1
   # GET /posts/1.json
   def show
     @post = Post.find(params[:id])
     @videos = Video.where(["post_id = ?", params[:id]]).all
-    @background = Background.where(["post_id = ?", params[:id]])
+    @background = Background::DEFAULT #Background.where(["post_id = ?", params[:id]])
 
     respond_to do |format|
       format.html # show.html.erb

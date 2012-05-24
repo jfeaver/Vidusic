@@ -13,8 +13,7 @@ class VideosController < ApplicationController
   # GET posts/:post_id/videos/:id
   # GET posts/:post_id/videos/:id.json
   def show
-    post = Post.find(params[:post_id])
-    if post
+    if Post.exists?(params[:post_id])
       post_videos = Video.where(["post_id = ?", params[:post_id]]).limit(3)
       #don't allow negative array locations for video ids in url:
       not_found unless params[:id].to_i.between?( 1, 3 )
