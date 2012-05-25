@@ -66,52 +66,81 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-
-    # Create a new post but don't save yet
-    params[:post] = Hash[ :release, Post.next_release ]
-    @post = Post.new(params[:post])
-
-    # Setup
-    video = nil
-    background = nil
-    errors = []
-    
-    # Create Videos
-    3.times do |video_counter|
-      video_counter = video_counter.to_s
-      unless params[:video][video_counter].empty?
-        post_id = (Post.last ? Post.last.id + 1 : 1 )
-        params[:video][video_counter][:post_id] = post_id
-        @video = Video.new(params[:video][video_counter])
-        video = true if @video.save && video.nil?
-        unless @video.errors.empty?
-          errors << @video.errors
-          video = false
+    #TODO Content can be created without a background and post to create it for...
+    if encrypt( params[:password] ) == encrypted_password
+      good_password = true
+      
+      # Setup
+      videos = [nil, nil, nil]
+      video_queue = []
+      background = nil
+      post = nil
+      errors = []
+      
+      # Create a new post but don't save yet
+      params[:post] = Hash[ :release, Post.next_release ]
+      @post = Post.new(params[:post])
+      post = true if @post.valid?
+      
+      # Create Videos
+      3.times do |video_num|
+        video_counter = video_num.to_s
+        #TODO This unless statement doesn't work
+        unless params[:video][video_counter].empty?
+          post_id = (Post.last ? Post.last.id + 1 : 1 )
+          params[:video][video_counter][:post_id] = post_id
+          @video = Video.new(params[:video][video_counter])
+          videos[video_num] = true 
+          if @video.valid?
+            videos[video_num] = true
+            video_queue << @video
+          else
+            errors << @video.errors
+            videos[video_num] = false
+          end
         end
       end
+
+      # Create Background
+      unless params[:background].empty?
+        post_id = (Post.last ? Post.last.id + 1 : 1 ) unless post_id
+        params[:background][:post_id] = post_id
+        @new_background = Background.new(params[:background])
+        if @new_background.valid?
+          background = true
+        else
+          errors << @new_background.errors
+          background = false
+        end
+      end
+      
+    else
+      good_password = false
+      errors = ['Your password was incorrect']
     end
 
-    # Create Background
-    unless params[:background].empty?
-      post_id = (Post.last ? Post.last.id + 1 : 1 ) unless post_id
-      params[:background][:post_id] = post_id
-      @new_background = Background.new(params[:background])
-      if @new_background.save
-        background = true
+    @background = get_latest_background
+    
+    video_check = nil
+    videos.each do |vid|
+      if (vid || vid.nil? && (video_check.nil? || video_check) )
+        video_check = true
       else
-        errors << @new_background.errors
-        background = false
+        video_check = false
       end
     end
-    
-    @background = get_latest_background
 
     respond_to do |format|
-      if @post.save && ( background || background.nil? ) && ( video || video.nil? )
+      if good_password && post && background && video_check
+        video_queue.each {|video| video.save}
+        @post.save
+        @new_background.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
-        flash[:notice] = errors.inspect
+        @post = (@post || Post.new)
+        @video = (@video || Video.new)
+        @new_background = ( @new_background || Background.new )
         errors << @post.errors
         format.html { render action: "new" }
         format.json { render json: errors, status: :unprocessable_entity }

@@ -1,7 +1,13 @@
 class Background < ActiveRecord::Base
   belongs_to :post
 
-  DEFAULT = Hash[:author => 'Dave Morrow', :flickr => 'http://www.flickr.com/photos/daves-f-stop/6803701386/', :naked => 'http://farm8.staticflickr.com/7200/6803701386_82682c2277_b.jpg', :author_link => 'http://www.flickr.com/people/daves-f-stop/', :cc_link => 'http://creativecommons.org/licenses/by-nc-sa/2.0/', :cc_logo => 'http://i.creativecommons.org/l/by-nc-sa/2.0/88x31.png', :cc_type => 5]
+  validates :author, :presence => true
+  validates :author_link, :presence => true #, :format => { :with => /^http:\/\/www.flickr.com\/photos\/\w+\/$/ }
+  validates :flickr, :presence => true #, :format => { :with => /^http:\/\/www.flickr.com\/photos\/\w+\/\d{8,11}/ }
+  validates :naked, :presence => true #, :format => { :with => /^http:\/\/farm\d.staticflickr.com\// }
+  validates :cc_type, :presence => true, :numericality => { :only_integer => true }
+
+  DEFAULT = Background.new(Hash[:author => 'Dave Morrow', :flickr => 'http://www.flickr.com/photos/daves-f-stop/6803701386/', :naked => 'http://farm8.staticflickr.com/7200/6803701386_82682c2277_b.jpg', :author_link => 'http://www.flickr.com/people/daves-f-stop/', :cc_type => 5])
 
   def cc_link
     type = get_cc_string

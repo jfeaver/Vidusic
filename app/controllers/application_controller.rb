@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  require 'digest/sha1'
   protect_from_forgery
 
   def not_found
@@ -46,6 +47,16 @@ class ApplicationController < ActionController::Base
 
   def get_background_for post
     post ? Background.where("post_id = ?", post.id).first : Background::DEFAULT
+  end
+  
+  def encrypt password
+    salt = 'WekUz7J1TM'
+    password += salt
+    Digest::SHA1.hexdigest password
+  end
+
+  def encrypted_password
+    '7d7fccacf529e1e5b6c7bbf5184fa0908eaf429c'
   end
 
 end

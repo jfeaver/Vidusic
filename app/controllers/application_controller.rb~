@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  require 'digest/sha1'
   protect_from_forgery
 
   def not_found
@@ -28,7 +29,6 @@ class ApplicationController < ActionController::Base
         video = args[:current] #current video object
         url_id = params[:id].to_i
         url_post_id = params[:post_id].to_i
-        flash[:debug] = Video.first.id.to_s + ' and ' + video.id.to_s
         @nav[:link_to_next] = ( ( Video.last && (Video.last.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 3 ? url_post_id + 1 : url_post_id)}/videos/#{(url_id.modulo 3) + 1}" )
         @nav[:link_to_previous] = ( (Video.first && (Video.first.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 1 ? url_post_id - 1 : url_post_id)}/videos/#{((url_id - 2).modulo 3) + 1}" )
         @nav[:title] = video.title
@@ -47,6 +47,16 @@ class ApplicationController < ActionController::Base
 
   def get_background_for post
     post ? Background.where("post_id = ?", post.id).first : Background::DEFAULT
+  end
+  
+  def encrypt password
+    salt = 'WekUz7J1TM'
+    password += salt
+    Digest::SHA1.hexdigest password
+  end
+
+  def encrypted_password
+    '7d7fccacf529e1e5b6c7bbf5184fa0908eaf429c'
   end
 
 end
