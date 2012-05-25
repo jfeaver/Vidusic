@@ -28,7 +28,6 @@ class ApplicationController < ActionController::Base
         video = args[:current] #current video object
         url_id = params[:id].to_i
         url_post_id = params[:post_id].to_i
-        flash[:debug] = Video.first.id.to_s + ' and ' + video.id.to_s
         @nav[:link_to_next] = ( ( Video.last && (Video.last.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 3 ? url_post_id + 1 : url_post_id)}/videos/#{(url_id.modulo 3) + 1}" )
         @nav[:link_to_previous] = ( (Video.first && (Video.first.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 1 ? url_post_id - 1 : url_post_id)}/videos/#{((url_id - 2).modulo 3) + 1}" )
         @nav[:title] = video.title
@@ -39,6 +38,14 @@ class ApplicationController < ActionController::Base
     else
       raise "Required arguments for PostController#get_navigation not received.  Required arguments: :for and :current."
     end
+  end
+
+  def get_latest_background
+    get_background_for Post.last
+  end
+
+  def get_background_for post
+    post ? Background.where("post_id = ?", post.id).first : Background::DEFAULT
   end
 
 end

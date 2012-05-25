@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     #@nav[:next] = Post.posts_to_display
     #@nav = [:link_to_next, :next, :previous, :link_to_previous, :title]
     @nav = get_navigation :for => 'posts', :current => ( Post.last ? Post.last.id : 0 ), :archive => 0
-    @background = Background::DEFAULT
+    @background = get_latest_background #Background::DEFAULT
     
     respond_to do |format|
       format.html # index.html.erb
@@ -25,6 +25,7 @@ class PostsController < ApplicationController
       redirect_to( :action => :archive, :page => @posts )
     else
       @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
+      @background = get_background_for @posts[rand( 0..(@posts.length-1) )]
       render( "index" )
     end
   end
@@ -34,7 +35,7 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @videos = Video.where(["post_id = ?", params[:id]]).all
-    @background = Background.where(["post_id = ?", params[:id]])
+    @background = get_background_for @post #Background::DEFAULT #Background.where(["post_id = ?", params[:id]])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -47,7 +48,9 @@ class PostsController < ApplicationController
   def new
     @post = Post.new
     @video = Video.new
-    @background = Background.new
+    @new_background = Background.new
+
+    @background = get_latest_background
 
     respond_to do |format|
       format.html # new.html.erb
@@ -69,7 +72,6 @@ class PostsController < ApplicationController
     @post = Post.new(params[:post])
 
     # Setup
-    flash[:alert]=params.inspect
     video = nil
     background = nil
     errors = []
@@ -93,21 +95,22 @@ class PostsController < ApplicationController
     unless params[:background].empty?
       post_id = (Post.last ? Post.last.id + 1 : 1 ) unless post_id
       params[:background][:post_id] = post_id
-      @background = Background.new(params[:background])
-      if @background.save
+      @new_background = Background.new(params[:background])
+      if @new_background.save
         background = true
       else
-        errors << @background.errors
+        errors << @new_background.errors
         background = false
       end
     end
     
+    @background = get_latest_background
+
     respond_to do |format|
       if @post.save && ( background || background.nil? ) && ( video || video.nil? )
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
-        flash[:debug] = 'background: ' + background.to_s + '<br/>video: ' + video.to_s
         flash[:notice] = errors.inspect
         errors << @post.errors
         format.html { render action: "new" }
@@ -137,7 +140,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @videos = Video.where(["post_id = ?", params[:id]]).all
-    @background = Background.where(["post_id = ?", params[:id]])
+    @background = get_background_for @post
     
     @post.destroy
     @videos.each { |video| video.destroy }

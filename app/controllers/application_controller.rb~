@@ -41,4 +41,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def get_latest_background
+    get_background_for Post.last
+  end
+
+  def get_background_for post
+    post ? Background.where("post_id = ?", post.id).first : Background::DEFAULT
+  end
+
 end

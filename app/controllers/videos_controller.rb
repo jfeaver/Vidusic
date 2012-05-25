@@ -19,7 +19,7 @@ class VideosController < ApplicationController
       not_found unless params[:id].to_i.between?( 1, 3 )
       @video = post_videos[ params[:id].to_i - 1 ]
       @nav = get_navigation :for => 'videos', :current => @video
-      @background = Background::DEFAULT
+      @background = get_background_for Post.find(params[:post_id])
     else
       not_found
     end

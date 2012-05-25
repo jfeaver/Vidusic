@@ -6,7 +6,7 @@
     =javascript_include_tag "application" 
     =csrf_meta_tags
     %style 
-      html{ background: url(#{@background[:naked_photo_link]}) no-repeat center center fixed; }
+      html{ background: url(#{@background[:naked]}) no-repeat center center fixed; }
   %body
     %a{:href => ROOT_URL}
       %h1(class="hidden") Vidusic
@@ -58,11 +58,11 @@
       %div(id="attribution_content")
         %p
           %i 
-            %a{:href => @background[:flickr_photo_link]} backround image:
+            %a{:href => @background[:flickr]} backround image:
         %p(class="attr_name")
           %a{ :href => @background[:author_link] }
             %b
               =@background[:author]
-        %a( rel="license"){ :href => @background[:cc_link] }
-          %img( alt="Creative Commons License" style="border-width:0"){:src => @background[:cc_logo]}
+        %a( rel="license"){ :href => @background.cc_link }
+          %img( alt="Creative Commons License" style="border-width:0"){:src => @background.cc_logo}
 

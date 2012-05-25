@@ -6,9 +6,9 @@
     =javascript_include_tag "application" 
     =csrf_meta_tags
     %style 
-      html{ background: url(#{@background[:naked_photo_link]}) no-repeat center center fixed; }
+      html{ background: url(#{@background[:naked]}) no-repeat center center fixed; }
   %body
-    %a{:href => home_url}
+    %a{:href => ROOT_URL}
       %h1(class="hidden") Vidusic
     %a(id="logo"){:href => ROOT_URL}
       =image_tag 'logo.png'
@@ -58,7 +58,7 @@
       %div(id="attribution_content")
         %p
           %i 
-            %a{:href => @background[:flickr_photo_link]} backround image:
+            %a{:href => @background[:flickr]} backround image:
         %p(class="attr_name")
           %a{ :href => @background[:author_link] }
             %b
