@@ -23,6 +23,14 @@ class ApplicationController < ActionController::Base
         @nav[:link_to_next] = ( cp - ppp > 0 ? ROOT_URL + "posts/archive/#{args[:archive]+1}" : false )
         @nav[:link_to_previous] = ( (p == 0 || cp == p) ? false : ROOT_URL + "posts/archive/#{args[:archive]-1}" )
         @nav[:title] = "Recent Videos"
+      when 'post'
+        # Some logic parameters:
+        p = ( Post.last ? Post.last : 0 ) #Total Posts
+        cp = args[:current] # Current post
+
+        @nav[:link_to_next] = ( cp === p ? false : ROOT_URL + "posts/#{cp.id + 1}" )
+        @nav[:link_to_previous] = ( cp.id == 1 ? false : ROOT_URL + "posts/#{cp.id - 1}" )
+        @nav[:title] = cp.release
       when 'videos'
         # Requires args[:video] as the current video object
         # Some logic parameters:

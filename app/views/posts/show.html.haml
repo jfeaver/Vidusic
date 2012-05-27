@@ -1,9 +1,6 @@
-%p#notice= notice
-
-%p
-  %b Release:
-  = @post.release
-
-= link_to 'Edit', edit_post_path
-\|
-= link_to 'Back', posts_path
+-@videos.length.times do |v|
+  %a{ :href => ROOT_URL + "posts/#{@post.id}/videos/#{v+1}" }
+    .video
+      .preview
+        %img{:src => "http://img.youtube.com/vi/#{@videos[v].slug}/2.jpg", :alt => 'video thumbnail'}
+      %h3= @videos[v].title

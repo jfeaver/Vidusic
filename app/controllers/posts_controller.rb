@@ -4,9 +4,7 @@ class PostsController < ApplicationController
   # Home page!
   def index
     @posts = Post.recent
-    
-    #@nav[:next] = Post.posts_to_display
-    #@nav = [:link_to_next, :next, :previous, :link_to_previous, :title]
+    @videos = Video.get_for @posts
     @nav = get_navigation :for => 'posts', :current => ( Post.last ? Post.last.id : 0 ), :archive => 0
     @background = get_latest_background #Background::DEFAULT
     
@@ -24,6 +22,7 @@ class PostsController < ApplicationController
       # The end of the archive pages has been surpassed
       redirect_to( :action => :archive, :page => @posts )
     else
+      @videos = Video.get_for @posts
       @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
       @background = get_background_for @posts[rand( 0..(@posts.length-1) )]
       render( "index" )
@@ -34,9 +33,10 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @post = Post.find(params[:id])
-    @videos = Video.where(["post_id = ?", params[:id]]).all
+    @videos = Video.get_for @post #where(["post_id = ?", params[:id]]).all
     @background = get_background_for @post #Background::DEFAULT #Background.where(["post_id = ?", params[:id]])
-
+    @nav = get_navigation :for => 'post', :current => @post
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @post }
