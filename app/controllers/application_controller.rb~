@@ -37,8 +37,9 @@ class ApplicationController < ActionController::Base
         video = args[:current] #current video object
         url_id = params[:id].to_i
         url_post_id = params[:post_id].to_i
-        @nav[:link_to_next] = ( ( Video.last && (Video.last.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 3 ? url_post_id + 1 : url_post_id)}/videos/#{(url_id.modulo 3) + 1}" )
-        @nav[:link_to_previous] = ( (Video.first && (Video.first.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 1 ? url_post_id - 1 : url_post_id)}/videos/#{((url_id - 2).modulo 3) + 1}" )
+        # Assumes Three Videos Posted in a day
+        @nav[:link_to_next] = ( (video.id == 3) ? false : ROOT_URL + "posts/#{(url_id == 3 ? url_post_id - 1 : url_post_id)}/videos/#{(url_id.modulo 3) + 1}" )
+        @nav[:link_to_previous] = ( (Video.last.id - 2 == video.id ) ? false : ROOT_URL + "posts/#{(url_id == 1 ? url_post_id + 1 : url_post_id)}/videos/#{((url_id - 2).modulo 3) + 1}" )
         @nav[:title] = video.title
       else
         @nav = false

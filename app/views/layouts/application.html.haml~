@@ -37,14 +37,23 @@
             %nav
               %ul(id="nav")
                 %li(id="previous")
-                  %a{:href => @nav[:link_to_previous]}
-                    =@nav[:previous]
+                  -if @nav[:link_to_previous]
+                    %a{:href => @nav[:link_to_previous]}
+                      =@nav[:previous]
+                  -else
+                    %a.no_conent
+                      =@nav[:previous]
                 %li(id="current")
                   =@nav[:title]
                 %li(id="next")
-                  %a{:href => @nav[:link_to_next]}
-                    =@nav[:next]
-          =yield
+                  -if @nav[:link_to_next]
+                    %a{:href => @nav[:link_to_next]}
+                      =@nav[:next]
+                  -else
+                    %a.no_conent
+                      =@nav[:next]
+          #content_container
+            =yield
         %div(class="border m r")
           =image_tag 'borders/bor_right.png'
       %div(class="border_row")

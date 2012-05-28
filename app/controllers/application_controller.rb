@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
         p = ( Post.last ? Post.last : 0 ) #Total Posts
         cp = args[:current] # Current post
 
-        @nav[:link_to_next] = ( cp === p ? false : ROOT_URL + "posts/#{cp.id + 1}" )
-        @nav[:link_to_previous] = ( cp.id == 1 ? false : ROOT_URL + "posts/#{cp.id - 1}" )
+        @nav[:link_to_next] = ( cp.id == 1 ? false : ROOT_URL + "posts/#{cp.id - 1}" )
+        @nav[:link_to_previous] = ( cp === p ? false : ROOT_URL + "posts/#{cp.id + 1}" )
         @nav[:title] = cp.release
       when 'videos'
         # Requires args[:video] as the current video object
@@ -37,8 +37,9 @@ class ApplicationController < ActionController::Base
         video = args[:current] #current video object
         url_id = params[:id].to_i
         url_post_id = params[:post_id].to_i
-        @nav[:link_to_next] = ( ( Video.last && (Video.last.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 3 ? url_post_id + 1 : url_post_id)}/videos/#{(url_id.modulo 3) + 1}" )
-        @nav[:link_to_previous] = ( (Video.first && (Video.first.id == video.id) ) ? false : ROOT_URL + "posts/#{(url_id == 1 ? url_post_id - 1 : url_post_id)}/videos/#{((url_id - 2).modulo 3) + 1}" )
+        # Assumes Three Videos Posted in a day
+        @nav[:link_to_next] = ( (video.id == 3) ? false : ROOT_URL + "posts/#{(url_id == 3 ? url_post_id - 1 : url_post_id)}/videos/#{(url_id.modulo 3) + 1}" )
+        @nav[:link_to_previous] = ( (Video.last.id - 2 == video.id ) ? false : ROOT_URL + "posts/#{(url_id == 1 ? url_post_id + 1 : url_post_id)}/videos/#{((url_id - 2).modulo 3) + 1}" )
         @nav[:title] = video.title
       else
         @nav = false
