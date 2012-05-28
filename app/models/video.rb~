@@ -11,6 +11,7 @@ class Video < ActiveRecord::Base
         videos << Video.where(["post_id = ?", post.id]).all
       end
     else
+      # only one post in posts
       videos = Video.where(["post_id = ?", posts.id]).all
     end
     videos

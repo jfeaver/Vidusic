@@ -25,18 +25,18 @@ a:hover {
 
 a img { border: none; }
 
-h2, h3, h4 { text-align: center; }
-
 .hidden { display: none; }
 
 #logo { display: block; height: 0; position: fixed; top: 0; left: 0; z-index: -1; }
 
-#flash {
-  position: absolute;
-  top: 20px;
-  left: 200px;
+.flash {
+  border: solid gray 1px;
+  padding: 10px;
   color: white;
   background: black;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
 }
 
 #wrapper {
@@ -52,10 +52,10 @@ h2, h3, h4 { text-align: center; }
   background: black;
 }
 
-.headline {
+/*.headline {
   font-weight: bold;
   text-align: center;
-}
+}*/
 
 nav {
   height: 50px;
@@ -66,55 +66,52 @@ nav {
   font-size: 1.1em;
 }
 
-nav .link {
+nav li {
   height: 50px;
   position: absolute;
   top: 18px;
 }
-nav .previous { left: 20px; }
-nav .current { 
+nav #previous { left: 20px; }
+nav #current { 
+  width: 100%;
   text-align: center;
-  padding-top: 18px;
   font-weight: bold;
 }
-nav .next { right: 20px; }
+nav #next { right: 20px; }
 
-/* Video List */
+/* Video List/Archive */
+.post_list {
+  padding-top: 10px;  
+}
+.post_list_post {
+  width: 140px;
+  text-align: center;
+  float: left;
+}
+
+.post_list_post_container {
+  width: 130px;
+  margin: auto;
+  padding-bottom: 8px;
+  border: solid gray 1px;
+}
+
 ul {
+  margin: 0;
   padding: 0;
 }
 
 li { list-style-type: none; }
 
-li .date { font-family: Georgia, Garamond, serif; font-size: 1.4rem; }
+/* Post View */
 
-#content .no_video {
-  font-size: 1.2rem;
-}
-
-ul ul { margin: 3px 8px 8px 10px; }
-
-.row { width: ; margin-left: 80px; }
-
-.column {
-  float: left;
-  margin-right: 20px;
-}
-.column.last { margin-right: 0px; }
-
-/* Specific Day/Video */
-
-#media_wrapper {
-  width: 100%;
-}
-
-#media_list {
+#video_list {
   width: 535px;
   margin: 86px auto;
   height: 142px;
 }
 
-.video_preview {
+#video_container {
   display: block;
   text-align: center;
   float: left;
@@ -127,7 +124,7 @@ ul ul { margin: 3px 8px 8px 10px; }
   border-radius: 6px;
 } 
 
-.video_preview img { padding-top: 8px; }
+#video_container img { padding-top: 8px; }
 
 /* Add a Video */
 input {
@@ -136,12 +133,16 @@ input {
   border: solid 1px MediumOrchid;
   color: white;
 }
+input[ type = "radio" ] {
+  width: auto;
+}
+
 label { padding-left: 7px; }
 input[name = "commit"]{ border: solid 1px white; background: #555; margin-left: 60%; }
 input[name = "commit"]:hover { background: #444; }
 input[name = "commit"]:active { background: #111; }
 
-/* General Page */
+/* Attribution */
 #attribution {
   z-index: -1;
   bottom: 10px;
@@ -181,11 +182,13 @@ input[name = "commit"]:active { background: #111; }
 .border_row {
 }
 
+/* (u)pper, (b)ottom, (m)iddle, (l)eft, (r)ight, (c)enter */
 .border.u, .border.b { height: 20px; }
 .border.m { height: 365px; }
 .border.l, .border.r { width: 20px; }
 .border.c { width: 560px; }
 
+/* Some Small Screen Adjustments */
 
 @media all and (max-height: 600px) { #wrapper { margin-top: 0; } }
 @media all and (min-height: 600px) and (max-height: 700px) { #wrapper { margin-top: 10%; } }

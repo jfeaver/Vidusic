@@ -37,7 +37,6 @@ class PostsController < ApplicationController
     @background = get_background_for @post #Background::DEFAULT #Background.where(["post_id = ?", params[:id]])
     @nav = get_navigation :for => 'post', :current => @post
     
-    flash.now[:debug] = @videos.inspect
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @post }

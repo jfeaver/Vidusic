@@ -44,7 +44,8 @@
                 %li(id="next")
                   %a{:href => @nav[:link_to_next]}
                     =@nav[:next]
-          =yield
+          #content_container
+            =yield
         %div(class="border m r")
           =image_tag 'borders/bor_right.png'
       %div(class="border_row")

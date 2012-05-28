@@ -63,6 +63,6 @@
           %a{ :href => @background[:author_link] }
             %b
               =@background[:author]
-        %a( rel="license"){ :href => @background[:cc_link] }
-          %img( alt="Creative Commons License" style="border-width:0"){:src => @background[:cc_logo]}
+        %a( rel="license"){ :href => @background.cc_link }
+          %img( alt="Creative Commons License" style="border-width:0"){:src => @background.cc_logo}
 
