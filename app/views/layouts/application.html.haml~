@@ -5,6 +5,7 @@
     =stylesheet_link_tag    "application", :media => "all"
     =javascript_include_tag "application" 
     =csrf_meta_tags
+    %link(rel='shortcut icon' href='./assets/favicon.png')
     %style 
       html{ background: url(#{@background[:naked]}) no-repeat center center fixed; }
   %body
@@ -41,7 +42,7 @@
                     %a{:href => @nav[:link_to_previous]}
                       =@nav[:previous]
                   -else
-                    %a.no_conent
+                    %a.no_content
                       =@nav[:previous]
                 %li(id="current")
                   =@nav[:title]
@@ -50,7 +51,7 @@
                     %a{:href => @nav[:link_to_next]}
                       =@nav[:next]
                   -else
-                    %a.no_conent
+                    %a.no_content
                       =@nav[:next]
           #content_container
             =yield
