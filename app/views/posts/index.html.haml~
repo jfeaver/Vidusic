@@ -1,13 +1,14 @@
 - if @posts
-  - @posts.length.times do |p|
-    .post_list_post
-      .post_list_post_container
-        %h4= link_to @posts[p].release, @posts[p]
-        %ul
-          - @videos[p].length.times do |v|
-            %li
-              %a{:href => ROOT_URL + "posts/#{@posts[p].id}/videos/#{v+1}"}
-                =@videos[p][v].title
+  .post_list
+    - @posts.length.times do |p|
+      .post_list_post
+        .post_list_post_container
+          %h4= link_to @posts[p].release, @posts[p]
+          %ul
+            - @videos[p].length.times do |v|
+              %li
+                %a{:href => ROOT_URL + "posts/#{@posts[p].id}/videos/#{v+1}"}
+                  =@videos[p][v].title
 
 - else
   %p There are no posts!
