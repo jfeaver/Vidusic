@@ -13,6 +13,7 @@ gem 'heroku'
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3' # you will need this too
   gem 'pg'
+  gem 'thin'
 end
 
 # Gems used only for assets and not required
