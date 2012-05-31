@@ -12,7 +12,7 @@ class Video < ActiveRecord::Base
       end
     else
       # only one post in posts
-      videos = (Video.exist?(posts.id) ? Video.where(["post_id = ?", posts.id]).all : false)
+      videos = (Video.exists?(posts.id) ? Video.where(["post_id = ?", posts.id]).all : false)
     end
     videos
   end
