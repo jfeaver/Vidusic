@@ -155,9 +155,7 @@ input[name = "commit"]:active { background: #111; }
   height: 90px;
   width: 140px;
   position: fixed;
-  /*
-   *="background: url('" + image_path( 'attribution_bg' ) +"');"
-   */
+  background: url('http://vidusic.heroku.com/assets/attribution_bg.png');
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
