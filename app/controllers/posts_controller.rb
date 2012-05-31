@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # Home page!
   def index
     @posts = Post.recent
-    @videos = Video.get_for @posts
+    @videos = Video.get_for @posts if @posts
     @nav = get_navigation :for => 'posts', :current => ( Post.last ? Post.last.id : 0 ), :archive => 0
     @background = get_latest_background #Background::DEFAULT
     
