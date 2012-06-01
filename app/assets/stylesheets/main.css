@@ -5,6 +5,8 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 
   font-family: Trebuchet, sans;
   font-size: 62.5%;
@@ -86,6 +88,9 @@ nav #next { right: 20px; }
 /* Video List/Archive */
 .post_list ul a:visited {
   color: #999;
+}
+.post_list ul a:hover {
+  color: DeepPink;
 }
 .post_list_post {
   width: 140px;

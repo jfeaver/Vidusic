@@ -5,6 +5,8 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 
   font-family: Trebuchet, sans;
   font-size: 62.5%;
@@ -87,6 +89,9 @@ nav #next { right: 20px; }
 .post_list ul a:visited {
   color: #999;
 }
+.post_list ul a:hover {
+  color: DeepPink;
+}
 .post_list_post {
   width: 140px;
   text-align: center;
@@ -155,9 +160,7 @@ input[name = "commit"]:active { background: #111; }
   height: 90px;
   width: 140px;
   position: fixed;
-  /*
-   *="background: url('" + image_path( 'attribution_bg' ) +"');"
-   */
+  background: url('http://vidusic.heroku.com/assets/attribution_bg.png');
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
