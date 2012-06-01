@@ -7,7 +7,7 @@
     =csrf_meta_tags
     %link(rel='shortcut icon'){:href => ROOT_URL + '/assets/favicon.png'}
     %style 
-      html{ background: url(#{@background[:naked]}) no-repeat center center fixed; }
+      html{ background: url(#{@background[:naked]}) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; }
   %body
     %a{:href => ROOT_URL}
       %h1(class="hidden") Vidusic
