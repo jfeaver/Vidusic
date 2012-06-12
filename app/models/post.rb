@@ -22,7 +22,7 @@ class Post < ActiveRecord::Base
     end
   end
 
-  POSTS_PER_PAGE = 5
+  POSTS_PER_PAGE = 12
 
   def self.next_release
     recent_release_date = ( Post.last ? Post.last.release : Date.today - 1 )
