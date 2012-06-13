@@ -25,7 +25,8 @@ class PostsController < ApplicationController
     else
       @videos = Video.get_for @posts
       @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
-      @background = get_background_for @posts[rand( 0..(@posts.length-1) )]
+
+      @background = get_background_for @posts[rand( @posts.length-1 )]
       render( "index" )
     end
   end
