@@ -129,6 +129,29 @@ li { list-style-type: none; }
 
 #video_container img { padding-top: 8px; }
 
+/* Menu */
+#top_menu_container {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+}
+#top_menu {
+  position: relative;
+  left: -50%;
+  height: 55px;
+  width: 115px;
+  margin: auto;
+  background: url('http://localhost:3000/assets/menu.png');
+}
+#top_menu .items {
+  position: relative;
+  top: 3px;
+  text-align: center;
+  font-size: 1.2em;
+  line-height: 1.6em;
+}
+
+
 /* Add a Video */
 input {
   width: 100px;

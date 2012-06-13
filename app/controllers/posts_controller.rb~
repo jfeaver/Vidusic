@@ -3,14 +3,15 @@ class PostsController < ApplicationController
   # GET /posts.json
   # Home page!
   def index
-    @posts = Post.recent
-    @videos = Video.get_for @posts if @posts
-    @nav = get_navigation :for => 'posts', :current => ( Post.last ? Post.last.id : 0 ), :archive => 0
-    @background = get_latest_background #Background::DEFAULT
-    
+    @post = Post.last
+    @videos = Video.get_for @post if @post
+    @nav = get_navigation :for => 'post', :current => @post
+    @background = get_background_for @post #Background::DEFAULT
+    @menu = get_menu :for => 'post'
+
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @posts }
+      format.html { render "show" }
+      format.json { render json: @post }
     end
   end
 
@@ -36,7 +37,8 @@ class PostsController < ApplicationController
     @videos = Video.get_for @post #where(["post_id = ?", params[:id]]).all
     @background = get_background_for @post #Background::DEFAULT #Background.where(["post_id = ?", params[:id]])
     @nav = get_navigation :for => 'post', :current => @post
-    
+    @menu = get_menu :for => 'post'
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @post }
@@ -180,4 +182,5 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
 end

@@ -28,4 +28,13 @@ class Post < ActiveRecord::Base
     recent_release_date = ( Post.last ? Post.last.release : Date.today - 1 )
     return ( recent_release_date < Date.today ? Date.today : recent_release_date + 1 )
   end
+  
+  def strf_release args = nil
+    if args && args[:short]
+      self.release.strftime("%B #{self.release.day.ordinalize}")
+    else
+      self.release.strftime("%B #{self.release.day.ordinalize}, %Y")
+    end
+  end
+
 end

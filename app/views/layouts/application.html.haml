@@ -13,6 +13,13 @@
       %h1(class="hidden") Vidusic
     %a(id="logo"){:href => ROOT_URL}
       =image_tag 'logo.png'
+    -if @menu
+      #top_menu_container{:rel => @menu[:rel]}
+        #top_menu{:rel => @menu[:rel]}
+          .items
+            -@menu[:items].each do |menu_item|
+              %a{:href => menu_item[:href]}= menu_item[:text]
+              %br
     -if flash[:notice]
       #notice(class='flash')
         %p= flash[:notice]

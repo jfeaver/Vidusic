@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
 
         @nav[:link_to_next] = ( cp.id == 1 ? false : ROOT_URL + "posts/#{cp.id - 1}" )
         @nav[:link_to_previous] = ( cp === p ? false : ROOT_URL + "posts/#{cp.id + 1}" )
-        @nav[:title] = cp.release.strftime("%B #{cp.release.day.ordinalize}, %Y")
+        @nav[:title] = cp.strf_release
       when 'videos'
         # Requires args[:video] as the current video object
         # Some logic parameters:
@@ -50,8 +50,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def get_latest_background
-    get_background_for Post.last
+  def get_menu args
+    if args[:for]
+      @menu = {}
+      case args[:for]
+      when 'post'
+        @menu[:rel] = 'post'
+        @menu[:items] = [{:text => 'Archive', :href => ROOT_URL + 'posts/archive/0'}]
+      when 'video'
+        @menu[:rel] = 'video'
+        @menu[:items] = [ {:text => 'Archive', :href => ROOT_URL + 'posts/archive/0'}, {:text => args[:post].strf_release( :short => true ), :href => ROOT_URL + "posts/#{args[:post].id}"}  ]
+      end
+    end
+    return @menu
   end
 
   def get_background_for post

@@ -14,12 +14,14 @@ class VideosController < ApplicationController
   # GET posts/:post_id/videos/:id.json
   def show
     if Post.exists?(params[:post_id])
+      post = Post.find(params[:post_id])
       post_videos = Video.where(["post_id = ?", params[:post_id]]).limit(3)
       #don't allow negative array locations for video ids in url:
       not_found unless params[:id].to_i.between?( 1, 3 )
       @video = post_videos[ params[:id].to_i - 1 ]
       @nav = get_navigation :for => 'videos', :current => @video
       @background = get_background_for Post.find(params[:post_id])
+      @menu = get_menu :for => 'video', :post => post
     else
       not_found
     end
