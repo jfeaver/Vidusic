@@ -30,7 +30,7 @@ class Post < ActiveRecord::Base
   end
   
   def strf_release args = nil
-    if args[:short]
+    if args && args[:short]
       self.release.strftime("%B #{self.release.day.ordinalize}")
     else
       self.release.strftime("%B #{self.release.day.ordinalize}, %Y")

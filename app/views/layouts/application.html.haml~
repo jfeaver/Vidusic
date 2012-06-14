@@ -19,7 +19,7 @@
           .items
             -@menu[:items].each do |menu_item|
               %a{:href => menu_item[:href]}= menu_item[:text]
-              %br= unless menu_item = @menu[:items].last
+              %br
     -if flash[:notice]
       #notice(class='flash')
         %p= flash[:notice]

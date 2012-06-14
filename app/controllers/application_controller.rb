@@ -68,6 +68,16 @@ class ApplicationController < ActionController::Base
   def get_background_for post
     post ? Background.where("post_id = ?", post.id).first : Background::DEFAULT
   end
+
+  def get_random_background args = nil
+    if args && args[:for]
+      posts = args[:for]
+      background = get_background_for posts[ rand( posts.length-1 ) ]
+    else
+      background = get_background_for Post.find( rand(Post.last.id) )
+    end
+    return background
+  end
   
   def encrypt password
     salt = 'WekUz7J1TM'
