@@ -26,7 +26,7 @@ class PostsController < ApplicationController
       @videos = Video.get_for @posts
       @nav = get_navigation :for => 'posts', :current => @posts[0].id, :archive => page_num
 
-      @background = get_background_for @posts[rand( @posts.length-1 )]
+      @background = get_random_background :for => @posts
       render( "index" )
     end
   end
@@ -53,7 +53,7 @@ class PostsController < ApplicationController
     @video = Video.new
     @new_background = Background.new
 
-    @background = get_latest_background
+    @background = get_random_background
 
     respond_to do |format|
       format.html # new.html.erb
