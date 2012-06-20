@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_random_background args = nil
-    if args[:for]
+    if args && args[:for]
       posts = args[:for]
       background = get_background_for posts[ rand( posts.length-1 ) ]
     else

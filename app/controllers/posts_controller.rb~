@@ -122,7 +122,7 @@ class PostsController < ApplicationController
       errors = ['Your password was incorrect']
     end
 
-    @background = get_background_for Post.last.id
+    @background = get_background_for Post.last
     
     video_check = nil
     videos.each do |vid|

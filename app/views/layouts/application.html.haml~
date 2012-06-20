@@ -14,12 +14,13 @@
     %a(id="logo"){:href => ROOT_URL}
       =image_tag 'logo.png'
     -if @menu
-      #top_menu_container{:rel => @menu[:rel]}
-        #top_menu{:rel => @menu[:rel]}
-          .items
-            -@menu[:items].each do |menu_item|
-              %a{:href => menu_item[:href]}= menu_item[:text]
-              %br
+      %nav#main.supplement
+        #top_menu_container{:rel => @menu[:rel]}
+          #top_menu{:rel => @menu[:rel]}
+            .items
+              -@menu[:items].each do |menu_item|
+                %a{:href => menu_item[:href]}= menu_item[:text]
+                %br
     -if flash[:notice]
       #notice(class='flash')
         %p= flash[:notice]
@@ -42,7 +43,7 @@
           =image_tag 'borders/bor_left.png'
         %div(id="content")
           -if @nav
-            %nav
+            %nav.pagination
               %ul(id="nav")
                 %li(id="previous")
                   -if @nav[:link_to_previous]
@@ -71,8 +72,8 @@
           =image_tag 'borders/bor_bottom.png'
         %div(class="border b r")
           =image_tag 'borders/bor_br.png'
-    %div(id="attribution")
-      %div(id="attribution_content")
+    #attribution.supplement
+      #attribution_content
         %p
           %i 
             %a{:href => @background[:flickr]} backround image:
