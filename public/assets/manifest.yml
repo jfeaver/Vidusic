@@ -1,6 +1,5 @@
 ---
 attribution_bg.png: attribution_bg-e543dc6c471528f43e4fe231449b542a.png
-bg1.jpg: bg1-8f01ca27576c3305452e55cf4fea3034.jpg
 borders/bor_bl.png: borders/bor_bl-0043a9da5934a8a554da31bbe05eeca1.png
 borders/bor_bottom.png: borders/bor_bottom-c9e867e9896894425766bebf080b562d.png
 borders/bor_br.png: borders/bor_br-ef782d7da6ede698255154978af72977.png
@@ -11,7 +10,5 @@ borders/bor_ul.png: borders/bor_ul-0077f34201c3f7ace779c26c72896bbb.png
 borders/bor_ur.png: borders/bor_ur-696e46e852e8659d1821ebc9f067544a.png
 favicon.png: favicon-e187d8bc358f989eb44d55c25099eac1.png
 logo.png: logo-476cf4962849daf4b915d8ade9941c8b.png
-menu.png: menu-0e44bade96e10d306f2ec3abe727a8b4.png
-rails.png: rails-be8732dac73d845ac5b142c8fb5f9fb0.png
 application.js: application-990a4cf0df42934fcc4c14aaf88b7ced.js
-application.css: application-2bb8aedc1653553f9c786a3d7793b9ad.css
+application.css: application-98e89d3b28769ac22c09ae6bb6050052.css

@@ -7,7 +7,16 @@ html {
 }
 
 html { margin: 0; padding: 0; }
-body { margin: 105px 0 0 0; padding: 0; font-size: 1em; }
+body {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: -1;
+  margin: 0px;
+  padding: 0px;
+  font-size: 1em;
+}
 
 a, a:visited {
   text-decoration: none;
@@ -43,9 +52,10 @@ a img { border: none; }
 }
 
 #wrapper {
+  margin-top: 15%;
   height: 405px;
   width: 600px;
-  margin: auto; 
+  margin: auto;
 }
 
 #content {
@@ -219,6 +229,6 @@ input[name = "commit"]:active { background: #111; }
 /* Some Small Screen Adjustments */
 
 @media all and (max-height: 600px) { #wrapper { margin-top: 0; } }
-@media all and (min-height: 600px) and (max-height: 700px) { #wrapper { margin-top: 10%; } }
-@media all and (max-height: 800px) { #wrapper { margin-top: 13%; } }
+@media all and (min-height: 600px) and (max-height: 700px) { #wrapper { margin-top: 8%; } }
+@media all and (min-height: 700px) and (max-height: 800px) { #wrapper { margin-top: 11%; } }
 
