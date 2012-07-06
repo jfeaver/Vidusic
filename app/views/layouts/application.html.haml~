@@ -30,49 +30,48 @@
     -if flash[:debug]
       #debug(class='flash')
         %p= flash[:debug]
-    #wrapper_container
-      %div(id="wrapper")
-        %div(class="border_row")
-          %div(class="border u l")
-            =image_tag 'borders/bor_ul.png'
-          %div(class="border u c")
-            =image_tag 'borders/bor_top.png'
-          %div(class="border u r")
-            =image_tag 'borders/bor_ur.png'
-        %div(class="border_row")
-          %div(class="border m l")
-            =image_tag 'borders/bor_left.png'
-          %div(id="content")
-            -if @nav
-              %nav.pagination
-                %ul(id="nav")
-                  %li(id="previous")
-                    -if @nav[:link_to_previous]
-                      %a{:href => @nav[:link_to_previous]}
-                        =@nav[:previous]
-                    -else
-                      %a.no_content
-                        =@nav[:previous]
-                  %li(id="current")
-                    =@nav[:title]
-                  %li(id="next")
-                    -if @nav[:link_to_next]
-                      %a{:href => @nav[:link_to_next]}
-                        =@nav[:next]
-                    -else
-                      %a.no_content
-                        =@nav[:next]
-            #content_container
-              =yield
-          %div(class="border m r")
-            =image_tag 'borders/bor_right.png'
-        %div(class="border_row")
-          %div(class="border b l")
-            =image_tag 'borders/bor_bl.png'
-          %div(class="border b c")
-            =image_tag 'borders/bor_bottom.png'
-          %div(class="border b r")
-            =image_tag 'borders/bor_br.png'
+    %div(id="wrapper")
+      %div(class="border_row")
+        %div(class="border u l")
+          =image_tag 'borders/bor_ul.png'
+        %div(class="border u c")
+          =image_tag 'borders/bor_top.png'
+        %div(class="border u r")
+          =image_tag 'borders/bor_ur.png'
+      %div(class="border_row")
+        %div(class="border m l")
+          =image_tag 'borders/bor_left.png'
+        %div(id="content")
+          -if @nav
+            %nav.pagination
+              %ul(id="nav")
+                %li(id="previous")
+                  -if @nav[:link_to_previous]
+                    %a{:href => @nav[:link_to_previous]}
+                      =@nav[:previous]
+                  -else
+                    %a.no_content
+                      =@nav[:previous]
+                %li(id="current")
+                  =@nav[:title]
+                %li(id="next")
+                  -if @nav[:link_to_next]
+                    %a{:href => @nav[:link_to_next]}
+                      =@nav[:next]
+                  -else
+                    %a.no_content
+                      =@nav[:next]
+          #content_container
+            =yield
+        %div(class="border m r")
+          =image_tag 'borders/bor_right.png'
+      %div(class="border_row")
+        %div(class="border b l")
+          =image_tag 'borders/bor_bl.png'
+        %div(class="border b c")
+          =image_tag 'borders/bor_bottom.png'
+        %div(class="border b r")
+          =image_tag 'borders/bor_br.png'
     #attribution.supplement
       #attribution_content
         %p
