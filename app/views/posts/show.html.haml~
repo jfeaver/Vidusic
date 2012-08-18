@@ -1,8 +1,0 @@
-#video_list
-  -@videos.length.times do |v|
-    #video_container
-      %a{ :href => ROOT_URL + "posts/#{@post.id}/videos/#{v+1}" }
-        .video
-          .preview
-            %img{:src => "http://img.youtube.com/vi/#{@videos[v].slug}/2.jpg", :alt => 'video thumbnail'}
-          %h3= @videos[v].title
