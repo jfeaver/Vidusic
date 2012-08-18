@@ -83,7 +83,12 @@ class PostsController < ApplicationController
       # Create a new post but don't save yet
       params[:post] = Hash[ :release, Post.next_release ]
       @post = Post.new(params[:post])
-      post = true if @post.valid?
+      if @post.valid?
+        post = true
+      else
+        errors << 'Invalid Post - Unknown'
+      end
+
       
       # Create Videos
       3.times do |video_num|
@@ -119,17 +124,19 @@ class PostsController < ApplicationController
       
     else
       good_password = false
-      errors = ['Your password was incorrect']
+      errors << 'Your password was incorrect'
     end
 
     @background = get_background_for Post.last
     
+    # Are each of the videos that were included valid?  If not, we won't save the post.
     video_check = nil
     videos.each do |vid|
       if (vid || vid.nil? && (video_check.nil? || video_check) )
         video_check = true
       else
         video_check = false
+        errors << 'Video Check Failed - Check that each video is unique, and has a valid slug'
       end
     end
 
@@ -141,6 +148,7 @@ class PostsController < ApplicationController
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render json: @post, status: :created, location: @post }
       else
+        flash.now[:notice] = params.inspect + "<br>" + errors.inspect
         @post = (@post || Post.new)
         @video = (@video || Video.new)
         @new_background = ( @new_background || Background.new )
