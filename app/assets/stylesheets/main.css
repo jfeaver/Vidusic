@@ -115,6 +115,8 @@ nav.pagination #next { right: 20px; }
   margin: auto;
   padding-bottom: 8px;
   border: solid gray 1px;
+  height: 76px;
+  overflow: hidden;
 }
 
 ul {
